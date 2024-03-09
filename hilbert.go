@@ -38,7 +38,10 @@ func main() {
 	grad1 := colorgrad.Reds()
 	grad2 := colorgrad.Plasma()
 
+	fmt.Print("Generating image mappings - this will take a while ...")
 	imap, imaps := imgmap()
+
+	fmt.Println("done.")
 
 	var old [PREFIXES]uint64
 
@@ -75,14 +78,14 @@ func main() {
 					cur[i] = v
 				}
 
-				fmt.Println(max)
+				//fmt.Println(max)
 				PNG = render(cur, max, grad1)
 
 				now := time.Now()
 				for n := 0; n < 256; n++ {
 					PNGS[n] = render2(uint8(n), cur, max, grad2)
 				}
-				log.Println(time.Now().Sub(now))
+				log.Println("Retrived prefixes in", time.Now().Sub(now))
 
 				copy(old[:], new[:])
 
@@ -284,7 +287,7 @@ func imgmap() (string, [256]string) {
 			p := fmt.Sprintf("%d.%d.%d.0", n, b, c)
 			h := "https://www.whois.com/whois/" + p
 			tmp += fmt.Sprintf(`<area shape="rect" coords="%d,%d,%d,%d" alt="%s" title="%s" href="%s" target="_blank">`, x, y, x+8, y+8, p, p, h)
-			fmt.Println(n)
+			//fmt.Println(n)
 		}
 		imaps[n] = tmp
 	}
